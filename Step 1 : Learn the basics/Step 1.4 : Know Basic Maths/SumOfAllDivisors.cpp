@@ -22,6 +22,20 @@ int sumOfAllDivisors(int n){
     return totalSum;
 }
 
+//
+// int sumOfAllDivisors(int n){
+// 	// Write your code here.
+// 	  int totalSum {};
+// 	  int i { 1 };
+// 	  while(i <= n)
+// 	  {
+// 		  totalSum += (i * ( n / i));
+// 		  i++;
+// 	  }
+
+// 	  return totalSum;
+// }
+
 int main()
 {
     int n;
