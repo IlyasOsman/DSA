@@ -21,6 +21,21 @@ std::vector<int> printNos(int x)
     return result;
 }
 
+
+
+vector<string> printNTimes(int n) {
+	// Write your code here.
+	if (n == 0) {
+        return vector<string>();
+    }
+
+	string string_to_print = "Coding Ninjas";	
+	vector<std::string> result = printNTimes(n - 1);
+	result.push_back(string_to_print);
+
+	return result;
+}
+
 int main()
 {
     int n;
