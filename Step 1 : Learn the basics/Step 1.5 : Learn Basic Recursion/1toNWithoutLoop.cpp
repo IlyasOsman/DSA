@@ -55,6 +55,25 @@ long long sumFirstN(long long n) {
     return (n * (n + 1)) / 2;
 }
 
+vector<long long> factorialNumbers(long long n) {
+    if (n == 1) {
+        return std::vector<long long>{1};
+    }
+    if (n == 2) {
+        return std::vector<long long>{1, 2};
+    }
+
+    std::vector<long long> result = factorialNumbers(n - 1);
+
+    for (long long i = 2; i <= n; i++) {
+        if (n % i == 0) {
+            result.push_back(i);
+        }
+    }
+
+    return result;
+}
+
 int main()
 {
     int n;
