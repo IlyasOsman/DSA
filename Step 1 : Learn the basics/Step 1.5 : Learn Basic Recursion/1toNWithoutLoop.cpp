@@ -56,22 +56,19 @@ long long sumFirstN(long long n) {
 }
 
 vector<long long> factorialNumbers(long long n) {
-    if (n == 1) {
-        return std::vector<long long>{1};
-    }
-    if (n == 2) {
-        return std::vector<long long>{1, 2};
-    }
+    long long result { 1 };
+    long long cnt { 1 };
 
-    std::vector<long long> result = factorialNumbers(n - 1);
+    vector<long long> ans;
 
-    for (long long i = 2; i <= n; i++) {
-        if (n % i == 0) {
-            result.push_back(i);
-        }
+    while(result <= n / cnt)
+    {
+        result *= cnt;
+        cnt++;
+
+        ans.push_back(result);    
     }
-
-    return result;
+    return ans;
 }
 
 int main()
