@@ -71,6 +71,52 @@ vector<long long> factorialNumbers(long long n) {
     return ans;
 }
 
+
+vector<int> reverseArray(int n, vector<int> &nums)
+{
+    // Write your code here.
+    int start = 0;
+    int end = n - 1;
+
+    while (start < end) {
+        // Swap the elements at the start and end indices
+        int temp = nums[start];
+        nums[start] = nums[end];
+        nums[end] = temp;
+
+        // Move the start index forward and the end index backward
+        start++;
+        end--;
+    }
+
+    return nums;
+}
+
+
+ /*
+    Time Complexity: O(n)
+    Space Complexity: O(n)
+    where n is the size of the input array.
+*/
+
+// Function to reverse the elements of the given array 'nums'.
+vector<int> reverseArray(int n, vector<int> &nums)
+{
+    // Create a new vector to store the reversed elements.
+    vector<int> reversedArray(n);
+
+    // Traverse the original array in reverse order and store the elements in the new array.
+    for (int i = n - 1; i >= 0; i--)
+    {
+        reversedArray[n - i - 1] = nums[i];
+    }
+
+    // Returning the reversed array.
+    return reversedArray;
+}
+ 
+
+
 int main()
 {
     int n;
