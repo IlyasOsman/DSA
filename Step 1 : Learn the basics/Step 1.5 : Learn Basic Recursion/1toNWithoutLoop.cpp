@@ -116,6 +116,33 @@ vector<int> reverseArray(int n, vector<int> &nums)
 }
  
 
+bool isPalindromeH(string& str, int start, int end) {
+    // Base case: If the string has 0 or 1 character, it's a palindrome.
+    if (start >= end) {
+        return true;
+    }
+
+    // Compare the characters at the outer ends of the string.
+    if (str[start] == str[end]) {
+        // If they are the same, check if the substring inside is a palindrome.
+        return isPalindromeH(str, start + 1, end - 1);
+    } else {
+        // If the characters are different, it's not a palindrome.
+        return false;
+    }
+}
+
+bool isPalindrome(string& str) {
+    int start = 0;
+    int end = str.length() - 1;
+    return isPalindromeH(str, start, end);
+}
+
+
+// Optimal palindrome
+
+
+
 
 int main()
 {
