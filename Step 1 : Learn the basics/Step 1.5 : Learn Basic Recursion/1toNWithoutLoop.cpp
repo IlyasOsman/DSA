@@ -139,9 +139,29 @@ bool isPalindrome(string& str) {
 }
 
 
-// Optimal palindrome
+vector<int> generateFibonacciNumbers(int n) {
+    
+    vector<int> result;
 
+    if (n <= 0) {
+        return result; // Return an empty vector for n <= 0.
+    }
 
+    if (n == 1) {
+        result.push_back(0); // Special case for the first Fibonacci number.
+    }
+    else if (n >= 2) {
+        result.push_back(0);
+        result.push_back(1);
+
+        for (int i = 2; i < n; ++i) {
+            int nextFib = result[i - 1] + result[i - 2];
+            result.push_back(nextFib);
+        }
+    }
+
+    return result;
+}
 
 
 int main()
