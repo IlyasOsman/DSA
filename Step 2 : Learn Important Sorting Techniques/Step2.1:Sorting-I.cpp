@@ -25,6 +25,28 @@ void selectionSort(std::vector<int>& arr) {
     }
 }
 
+/*
+    Time Complexity : O(n ^ 2)
+    Space Complexity : O(1)
+    where n is size of the input array
+*/
+void bubbleSort(vector<int>& arr, int n) {
+	for (int i = 0; i < n - 1; i++)
+	{
+		for (int j = 0; j < n - i - 1; j++)
+		{
+			// If jth element is greater than 'j + 1' th element
+			// swap them
+			if (arr[j] > arr[j + 1])
+			{
+				int tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			}
+		}
+	}
+}
+
 int main() {
     std::vector<int> arr = {64, 25, 12, 22, 11};
     
