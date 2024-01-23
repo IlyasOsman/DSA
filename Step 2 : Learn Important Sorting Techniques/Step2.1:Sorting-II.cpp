@@ -68,6 +68,55 @@ void mergeSort(vector<int> &arr, int low, int high)
     }
 }
 
+// Quick sort
+// Time.C - O(N log N)
+// Space.C O(1)
+
+/*
+    The function is called with the parameters:
+    quickSort(input, 0, size - 1);
+
+*/
+#include <bits/stdc++.h>
+
+int partitionArray(int input[], int start, int end)
+{
+    // Write your code here
+    int pivot = start;
+    int i = start + 1;
+    int j = end;
+
+    while (i <= j)
+    {
+        while (i <= end && input[i] <= input[pivot])
+        {
+            i++;
+        }
+        while (j >= start + 1 && input[j] > input[pivot])
+        {
+            j--;
+        }
+        if (i < j)
+        {
+            swap(input[i], input[j]);
+        }
+    }
+
+    swap(input[start], input[j]);
+    return j;
+}
+
+void quickSort(int input[], int start, int end)
+{
+    if (start < end)
+    {
+        int partition = partitionArray(input, start, end);
+
+        quickSort(input, start, partition - 1);
+        quickSort(input, partition + 1, end);
+    }
+}
+
 int main()
 {
 
