@@ -136,3 +136,66 @@ int removeDuplicates(vector<int> &arr, int n)
     // Return length == (index of first pointer when second reaches end) + 1.
     return i + 1;
 }
+
+// Rotating by 1 to left
+
+#include <bits/stdc++.h>
+vector<int> rotateArray(vector<int> &arr, int n)
+{
+    // Write your code here.
+    int temp = arr[0];
+
+    for (int i = 1; i < n; i++)
+    {
+        arr[i - 1] = arr[i];
+    }
+    arr[n - 1] = temp;
+    return arr;
+}
+
+// Rotate array by k to left
+vector<int> rotateArray(vector<int> arr, int k)
+{
+    // Write your code here.
+    int n = arr.size();
+    k = k % n;
+
+    int temp[k];
+
+    for (int i = 0; i < k; i++)
+    {
+        temp[i] = arr[i];
+    }
+
+    for (int i = k; i < n; i++)
+    {
+        arr[i - k] = arr[i];
+    }
+
+    for (int i = n - k; i < n; i++)
+    {
+        arr[i] = temp[i - (n - k)];
+    }
+
+    return arr;
+}
+
+// optimal
+
+vector<int> rotateArray(vector<int> arr, int k)
+{
+    // Write your code here.
+    int n = arr.size();
+    k = k % n;
+
+    // Reverse the first k elements
+    reverse(arr.begin(), arr.begin() + k);
+
+    // Reverse the remaining elements
+    reverse(arr.begin() + k, arr.end());
+
+    // Reverse the entire array
+    reverse(arr.begin(), arr.end());
+
+    return arr;
+}
