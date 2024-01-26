@@ -229,3 +229,107 @@ vector<int> moveZeros(int n, vector<int> a)
 
     return a;
 }
+
+int linearSearch(int n, int num, vector<int> &arr)
+{
+    // Write your code here.
+    for (int i = 0; i < n; i++)
+    {
+        if (arr[i] == num)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+/*
+    Time Complexity: O((N + M) * log(N + M))
+    Space Complexity: O(N + M)
+
+    N and M are the sizes of array 'a' and 'b' respectively.
+*/
+#include <set>
+vector<int> sortedArray(vector<int> a, vector<int> b)
+{
+
+    int n = a.size(), m = b.size();
+    // Using a min-heap to
+    // store all distinct elements
+    set<int> st;
+
+    // Iterating over 'a'
+    for (int i = 0; i < n; ++i)
+    {
+        st.insert(a[i]);
+    }
+
+    // Iterating over 'b'
+    for (int i = 0; i < m; ++i)
+    {
+        st.insert(b[i]);
+    }
+
+    vector<int> unionArray;
+
+    // Copying all elements
+    // from the set to the vector
+    for (const int &value : st)
+    {
+        unionArray.push_back(value);
+    }
+
+    return unionArray;
+}
+
+// TC - O(N + M)
+
+vector<int> sortedArray(vector<int> a, vector<int> b)
+{
+    int n = a.size();
+    int m = b.size();
+    vector<int> temp;
+    int i = 0, j = 0;
+
+    while (i < n && j < m)
+    {
+        if (a[i] <= b[j])
+        {
+            if (temp.size() == 0 || temp.back() != a[i])
+            {
+                temp.push_back(a[i]);
+            }
+
+            i++;
+        }
+        else
+        {
+            if (temp.size() == 0 || temp.back() != b[j])
+            {
+                temp.push_back(b[j]);
+            }
+
+            j++;
+        }
+    }
+    while (i < n)
+    {
+        if (temp.size() == 0 || temp.back() != a[i])
+        {
+            temp.push_back(a[i]);
+        }
+
+        i++;
+    }
+    while (j < m)
+    {
+        if (temp.size() == 0 || temp.back() != b[j])
+        {
+            temp.push_back(b[j]);
+        }
+
+        j++;
+    }
+
+    return temp;
+}
