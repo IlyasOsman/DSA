@@ -456,3 +456,37 @@ vector<int> sortedArray(vector<int> a, vector<int> b)
         cout << "The length of the longest subarray is: " << len << "\n";
         return 0;
     }
+
+    // Longest subarray with sum k - works for positive only
+
+    int longestSubarrayWithSumK(vector<int> a, long long k)
+    {
+        // Two pointers both pointoing to a[0]
+        int right = 0;
+        int left = 0;
+
+        long long sum = a[0];
+        int maxL = 0;
+        int n = a.size();
+
+        while (right < n)
+        {
+
+            while (left <= right && sum > k)
+            {
+                sum -= a[left];
+                left++;
+            }
+
+            if (sum == k)
+            {
+                maxL = max(maxL, right - left + 1);
+            }
+
+            right++;
+
+            if (right < n)
+                sum += a[right];
+        }
+        return maxL;
+    }
