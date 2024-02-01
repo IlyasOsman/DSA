@@ -530,3 +530,38 @@ vector<int> sortedArray(vector<int> a, vector<int> b)
 
         return maxLen;
     }
+
+    class Solution
+    {
+    public:
+        // Function to check if the given vector is nearly sorted
+        // TC: O(n), SC: O(1) - TC and SC analysis provided below
+        bool check(vector<int> &nums)
+        {
+            // Variable to count the number of inversions
+            int count = 0;
+            // Get the size of the input vector
+            int n = nums.size();
+
+            // Iterate through the vector to count inversions
+            // TC: O(n)
+            for (int i = 1; i < n; i++)
+            {
+                // Check if the current element is greater than the previous element
+                if (nums[i - 1] > nums[i])
+                {
+                    count++; // Increment count if inversion is found
+                }
+            }
+
+            // Check if the last element is greater than the first element
+            // TC: O(1)
+            if (nums[n - 1] > nums[0])
+            {
+                count++; // Increment count if inversion is found
+            }
+
+            // Return true if there is at most one inversion, false otherwise
+            return count <= 1;
+        }
+    };
