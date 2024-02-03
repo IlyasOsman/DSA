@@ -593,3 +593,23 @@ vector<int> sortedArray(vector<int> a, vector<int> b)
         // If no book pair is possible.
         return "NO";
     }
+
+    class Solution
+    {
+    public:
+        void rotate(vector<int> &nums, int k)
+        {
+            // Write your code here.
+            int n = nums.size();
+            k = k % n;
+
+            // Reverse the first k elements
+            reverse(nums.begin(), nums.begin() + n - k);
+
+            // Reverse the remaining elements
+            reverse(nums.begin() + n - k, nums.end());
+
+            // Reverse the entire array
+            reverse(nums.begin(), nums.end());
+        }
+    };
