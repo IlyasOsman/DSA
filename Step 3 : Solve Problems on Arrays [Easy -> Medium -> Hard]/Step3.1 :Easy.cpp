@@ -594,6 +594,7 @@ vector<int> sortedArray(vector<int> a, vector<int> b)
         return "NO";
     }
 
+    // Rotate array to right by k
     class Solution
     {
     public:
