@@ -143,6 +143,22 @@ long long maxSubarraySum(int arr[], int n)
     return maxi;
 }
 
+//  time complexity is O(n).
+int bestTimeToBuyAndSellStock(vector<int> &prices)
+{
+    // Write your code here.
+    int n = prices.size();
+    int Maxprofit = 0;
+    int mini = INT_MAX;
+
+    for (int i = 0; i < n; i++)
+    {
+        mini = min(mini, prices[i]);
+        Maxprofit = max(Maxprofit, prices[i] - mini);
+    }
+    return Maxprofit;
+}
+
 int main()
 {
     int n = 6;
