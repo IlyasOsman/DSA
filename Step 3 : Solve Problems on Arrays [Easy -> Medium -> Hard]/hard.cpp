@@ -98,3 +98,126 @@ vector<vector<int>> triplet(int n, vector<int> &arr)
     }
     return ans;
 }
+
+// 4 sum
+/*
+    Time Complexity : O( N^3  ),
+    Space complexity: O( 1 )
+
+    Space Complexity: O(no. of quadruplets), This space is only used to store the answer.
+    We are not using any extra space to solve this problem. So, from that perspective,
+    space complexity can be written as O(1).
+
+    Where 'N' is the length of the array.
+
+*/
+
+vector<vector<int>> fourSum(vector<int> &nums, int target)
+{
+    // Write your code here
+    vector<vector<int>> ans;
+    sort(nums.begin(), nums.end());
+    int n = nums.size();
+    for (int i = 0; i < n; i++)
+    {
+        // Remove duplicate
+        if (i > 0 && nums[i] == nums[i - 1])
+            continue;
+        for (int j = i + 1; j < n; j++)
+        {
+            if (j > i + 1 && nums[j] == nums[j - 1])
+                continue;
+
+            int k = j + 1;
+            int l = n - 1;
+            while (k < l)
+            {
+                long long sum = nums[i] + nums[j];
+                sum += nums[k];
+                sum += nums[l];
+
+                if (sum == target)
+                {
+                    vector<int> temp = {nums[i], nums[j], nums[k], nums[l]};
+                    ans.push_back(temp);
+                    k++;
+                    l--;
+
+                    // skip the duplicates:
+                    while (k < l && nums[k] == nums[k - 1])
+                        k++;
+                    while (k < l && nums[l] == nums[l + 1])
+                        l--;
+                }
+                else if (sum < target)
+                    k++;
+                else
+                    l--;
+            }
+        }
+    }
+    return ans;
+}
+
+/*
+Time Complexity: O(N), where 'N' is the length of 'Arr'.
+
+Space Complexity: O(N), where 'N' is the length of 'Arr'.
+*/
+
+#include <bits/stdc++.h>
+
+int getLongestZeroSumSubarrayLength(vector<int> &arr)
+{
+    // Write your code here.
+    unordered_map<int, int> mpp;
+    int sum = 0;
+    int longest = 0;
+    int n = arr.size();
+
+    for (int i = 0; i < n - 1; i++)
+    {
+        sum += arr[i];
+
+        if (sum == 0)
+        {
+            longest = i + 1;
+        }
+        else
+        {
+            if (mpp.find(sum) != mpp.end())
+            {
+                longest = max(longest, i - mpp[sum]);
+            }
+            else
+            {
+                mpp[sum] = i;
+            }
+        }
+    }
+    return longest;
+}
+
+#include <bits/stdc++.h>
+
+// O(N) or O(N*logN) depending on which map data structure we are using, where N = size of the array.
+int subarraysWithSumK(vector<int> a, int b)
+{
+    // Write your code here
+    int xr = 0;
+    map<int, int> mpp;
+    int count = 0;
+    mpp[xr]++;
+    int n = a.size();
+
+    for (int i = 0; i < n; i++)
+    {
+        // xoring each
+        xr = xr ^ a[i];
+        // Looking for b. previous occurrence of x.
+        int x = xr ^ b;
+        count += mpp[x];
+        mpp[xr]++;
+    }
+    return count;
+}
