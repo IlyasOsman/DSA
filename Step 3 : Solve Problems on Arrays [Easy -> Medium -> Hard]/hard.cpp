@@ -221,3 +221,156 @@ int subarraysWithSumK(vector<int> a, int b)
     }
     return count;
 }
+
+// Time Complexity: O(N*logN) + O(N), where N = the size of the given array.
+vector<vector<int>> mergeOverlappingIntervals(vector<vector<int>> &arr)
+{
+    int n = arr.size(); // size of the array
+
+    // sort the given intervals:
+    sort(arr.begin(), arr.end());
+
+    vector<vector<int>> ans;
+
+    for (int i = 0; i < n; i++)
+    {
+        // if the current interval does not
+        // lie in the last interval:
+        if (ans.empty() || arr[i][0] > ans.back()[1])
+        {
+            ans.push_back(arr[i]);
+        }
+        // if the current interval
+        // lies in the last interval:
+        else
+        {
+            ans.back()[1] = max(ans.back()[1], arr[i][1]);
+        }
+    }
+    return ans;
+}
+
+// Time Complexity: O(N), where N = the size of the given array.
+
+vector<int> findMissingRepeatingNumbers(vector<int> a)
+{
+    // Write your code here
+    long long n = a.size(); // size of the array
+
+    // Find Sn and S2n:
+    long long SN = (n * (n + 1)) / 2;
+    long long S2N = (n * (n + 1) * (2 * n + 1)) / 6;
+
+    // Calculate S and S2:
+    long long S = 0, S2 = 0;
+    for (int i = 0; i < n; i++)
+    {
+        S += a[i];
+        S2 += (long long)a[i] * (long long)a[i];
+    }
+
+    // S-Sn = X-Y:
+    long long val1 = S - SN;
+
+    // S2-S2n = X^2-Y^2:
+    long long val2 = S2 - S2N;
+
+    // Find X+Y = (X^2-Y^2)/(X-Y):
+    val2 = val2 / val1;
+
+    // Find X and Y: X = ((X+Y)+(X-Y))/2 and Y = X-(X-Y),
+    //  Here, X-Y = val1 and X+Y = val2:
+    long long x = (val1 + val2) / 2;
+    long long y = x - val1;
+
+    return {(int)x, (int)y};
+}
+
+///  maximum product subarray
+
+#include <bits/stdc++.h>
+
+int subarrayWithMaxProduct(vector<int> &arr)
+{
+    // Write your code here.
+    int n = arr.size();
+    int ans = INT_MIN;
+    int pref = 1;
+    int suf = 1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (pref == 0)
+            pref = 1;
+        if (suf == 0)
+            suf = 1;
+        pref *= arr[i];
+        suf *= arr[n - i - 1];
+        ans = max(ans, max(pref, suf));
+    }
+    return ans;
+}
+
+// count inversion NlogN
+int merge(vector<int> &a, int low, int mid, int high)
+{
+    vector<int> temp;
+    int left = low;
+    int right = mid + 1;
+
+    int count = 0;
+    while (left <= mid && right <= high)
+    {
+        if (a[left] <= a[right])
+        {
+            temp.push_back(a[left]);
+            left++;
+        }
+        else
+        {
+            temp.push_back(a[right]);
+            count += (mid - left) + 1;
+            right++;
+        }
+    }
+
+    while (left <= mid)
+    {
+        temp.push_back(a[left]);
+        left++;
+    }
+
+    while (right <= high)
+    {
+        temp.push_back(a[right]);
+        right++;
+    }
+
+    for (int i = low; i <= high; i++)
+    {
+        a[i] = temp[i - low];
+    }
+
+    return count;
+}
+
+int mergeSort(vector<int> &a, int low, int high)
+{
+    int mid = (low + high) / 2;
+    int count = 0;
+    if (low >= high)
+        return count;
+
+    count += mergeSort(a, low, mid);
+    count += mergeSort(a, mid + 1, high);
+    count += merge(a, low, mid, high);
+
+    return count;
+}
+int numberOfInversions(vector<int> &a, int n)
+{
+    // Write your code here.
+    int low = 0;
+    int high = n - 1;
+    return mergeSort(a, low, high);
+}
