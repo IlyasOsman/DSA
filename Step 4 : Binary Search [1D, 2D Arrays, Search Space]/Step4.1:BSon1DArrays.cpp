@@ -354,3 +354,168 @@ int search(vector<int> &arr, int n, int k)
     }
     return -1;
 }
+
+// Log N
+
+bool searchInARotatedSortedArrayII(vector<int> &A, int key)
+{
+    // Write your code here.
+    int low = 0;
+    int high = A.size() - 1;
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (A[mid] == key)
+            return true;
+
+        if (A[low] == A[mid] && A[mid] == A[high])
+        {
+            low++;
+            high--;
+            continue;
+        }
+
+        if (A[low] <= A[mid])
+        {
+            if (A[low] <= key && key <= A[mid])
+            {
+                high = mid - 1;
+            }
+            else
+            {
+                low = mid + 1;
+            }
+        }
+        else
+        {
+            if (A[mid] <= key && key <= A[high])
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+    }
+    return false;
+}
+
+/*
+    Time Complexity: O(log(N))
+    Space Complexity: O(1),
+
+    where 'N' is the number of elements in the array.
+*/
+
+int findMin(vector<int> &arr)
+{
+    // Write your code here.
+    int low = 0;
+    int high = arr.size() - 1;
+    int ans = INT_MAX;
+
+    while (low <= high)
+    {
+        int mid = (high + low) / 2;
+
+        if (arr[low] <= arr[high])
+        {
+            ans = min(ans, arr[low]);
+            break;
+        }
+
+        if (arr[low] <= arr[mid])
+        {
+            ans = min(ans, arr[low]);
+            low = mid + 1;
+        }
+        else
+        {
+            ans = min(ans, arr[mid]);
+            high = mid - 1;
+        }
+    }
+    return ans;
+}
+
+#include <bits/stdc++.h>
+
+int findKRotation(vector<int> &arr)
+{
+    // Write your code here.
+    int low = 0;
+    int high = arr.size() - 1;
+
+    int ans = INT_MAX;
+    int index = 0;
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (arr[low] <= arr[high])
+        {
+            if (arr[low] < ans)
+            {
+                ans = arr[low];
+                index = low;
+            }
+            break;
+        }
+
+        if (arr[low] <= arr[mid])
+        {
+            ans = min(ans, arr[low]);
+            index = low;
+            low = mid + 1;
+        }
+        else
+        {
+            ans = min(ans, arr[mid]);
+            index = mid;
+            high = mid - 1;
+        }
+    }
+    return index;
+}
+
+/*
+    Time Complexity  : O(log(N))
+    Space Complexity : O(1)
+
+    Where N is the total number of elements in the given array.
+*/
+int singleNonDuplicate(vector<int> &arr)
+{
+    // Write your code here
+    int n = arr.size();
+    if (arr[0] != arr[1])
+        return arr[0];
+    if (arr[n - 1] != arr[n - 2])
+        return arr[n - 1];
+
+    int low = 1;
+    int high = n - 2;
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (arr[mid] != arr[mid - 1] && arr[mid] != arr[mid + 1])
+            return arr[mid];
+
+        if ((mid % 2 == 1 && arr[mid] == arr[mid - 1]) || (mid % 2 == 0 && arr[mid] == arr[mid + 1]))
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+
+    return -1;
+}
