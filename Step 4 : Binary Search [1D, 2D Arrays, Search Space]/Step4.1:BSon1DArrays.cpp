@@ -649,3 +649,141 @@ int NthRoot(int n, int m)
     }
     return -1;
 }
+
+/*
+    Koko eating banana
+    Time complexity = O(n log n)
+    S.C = O(N)
+*/
+
+int calculateHourly(vector<int> &v, int m)
+{
+    int h = 0;
+    for (int i = 0; i < v.size(); i++)
+    {
+        h += ceil((double)(v[i]) / m);
+    }
+    return h;
+}
+
+int minimumRateToEatBananas(vector<int> v, int h)
+{
+    // Write Your Code Here
+    int high = *max_element(v.begin(), v.end());
+    int low = 1;
+
+    sort(v.begin(), v.end());
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        int totalHours = calculateHourly(v, mid);
+
+        if (totalHours <= h)
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+
+    return low;
+}
+
+/*
+    Time Complexity: O( n * log ( d ) )
+    Space Complexity: O( 1 )
+
+    where n denotes the number of roses and d denotes the maximum value of the array.
+*/
+
+bool possible(vector<int> &arr, int k, int day, int m)
+{
+    int noOfBouPossible = 0;
+    int count = 0;
+
+    for (int i = 0; i < arr.size(); i++)
+    {
+        if (arr[i] <= day)
+        {
+            count++;
+        }
+        else
+        {
+            noOfBouPossible += (count / k);
+            count = 0;
+        }
+    }
+    noOfBouPossible += (count / k);
+
+    return noOfBouPossible >= m;
+}
+
+int roseGarden(vector<int> arr, int k, int m)
+{
+    // Write your code here
+    int low = *min_element(arr.begin(), arr.end());
+    int high = *max_element(arr.begin(), arr.end());
+    int n = arr.size();
+
+    if ((k * m) > n)
+        return -1;
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (possible(arr, k, mid, m))
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+
+    return low;
+}
+
+/*
+    Time Complexity: O(log(max(arr[]))*N)
+*/
+
+int sumDivisors(vector<int> &arr, int divisor)
+{
+    int n = arr.size();
+    int sum = 0;
+
+    for (int i = 0; i < n; i++)
+    {
+        sum += ceil((double)(arr[i]) / divisor);
+    }
+    return sum;
+}
+
+int smallestDivisor(vector<int> &arr, int limit)
+{
+    // Write your code here.
+    int low = 1;
+    int high = *max_element(arr.begin(), arr.end());
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (sumDivisors(arr, mid) <= limit)
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+
+    return low;
+}
