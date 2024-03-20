@@ -787,3 +787,129 @@ int smallestDivisor(vector<int> &arr, int limit)
 
     return low;
 }
+
+/*
+    Time Complexity: O(N * log(sum(weights[]) – max(weights[]) + 1))
+*/
+#include <bits/stdc++.h>
+
+int findDays(vector<int> &weights, int capacity)
+{
+    int load = 0;
+    int days = 1;
+
+    for (int i = 0; i < weights.size(); i++)
+    {
+        if (load + weights[i] > capacity)
+        {
+            days += 1;
+            load = weights[i];
+        }
+        else
+        {
+            load += weights[i];
+        }
+    }
+    return days;
+}
+
+int leastWeightCapacity(vector<int> &weights, int d)
+{
+    // Write your code here.
+    int low = *max_element(weights.begin(), weights.end());
+    int high = accumulate(weights.begin(), weights.end(), 0);
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (findDays(weights, mid) <= d)
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+
+    return low;
+}
+
+/*
+
+    Time Complexity: O(logN)
+*/
+int missingK(vector<int> vec, int n, int k)
+{
+    // Write your code here.
+    int low = 0;
+    int high = n - 1;
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        int noOfMissingNo = vec[mid] - (mid + 1);
+
+        if (noOfMissingNo < k)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+
+    return low + k;
+}
+
+/*
+    Time Complexity: O(NlogN) + O(N * log(max(stalls[])-min(stalls[])))
+*/
+
+bool canWePlace(vector<int> &stalls, int dist, int k)
+{
+    int lastCow = stalls[0];
+    int cows = 1;
+    int n = stalls.size();
+    int cow = 1;
+
+    for (int i = 1; i < n; i++)
+    {
+        if (stalls[i] - lastCow >= dist)
+        {
+            cows++;
+            lastCow = stalls[i];
+        }
+        if (cows >= k)
+            return true;
+    }
+    return false;
+}
+
+int aggressiveCows(vector<int> &stalls, int k)
+{
+    //    Write your code here
+    int n = stalls.size();
+    sort(stalls.begin(), stalls.end());
+    int low = 1;
+    int high = stalls[n - 1] - stalls[0];
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (canWePlace(stalls, mid, k) == true)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+
+    return high;
+}
