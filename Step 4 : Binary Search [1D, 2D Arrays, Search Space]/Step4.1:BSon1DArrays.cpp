@@ -913,3 +913,231 @@ int aggressiveCows(vector<int> &stalls, int k)
 
     return high;
 }
+
+/*
+    Time Complexity: O(N * log(sum(arr[])-max(arr[])+1))
+*/
+
+int countStudents(vector<int> &arr, int pages)
+{
+    int n = arr.size(); // size of array.
+    int students = 1;
+    long long pagesStudent = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (pagesStudent + arr[i] <= pages)
+        {
+            // add pages to current student
+            pagesStudent += arr[i];
+        }
+        else
+        {
+            // add pages to next student
+            students++;
+            pagesStudent = arr[i];
+        }
+    }
+    return students;
+}
+
+int findPages(vector<int> &arr, int n, int m)
+{
+    // book allocation impossible:
+    if (m > n)
+        return -1;
+
+    int low = *max_element(arr.begin(), arr.end());
+    int high = accumulate(arr.begin(), arr.end(), 0);
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int students = countStudents(arr, mid);
+        if (students > m)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return low;
+}
+
+int countPartitions(vector<int> &a, int maxSum)
+{
+    int n = a.size(); // size of array.
+    int partitions = 1;
+    long long subarraySum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        if (subarraySum + a[i] <= maxSum)
+        {
+            // insert element to current subarray
+            subarraySum += a[i];
+        }
+        else
+        {
+            // insert element to next subarray
+            partitions++;
+            subarraySum = a[i];
+        }
+    }
+    return partitions;
+}
+
+int largestSubarraySumMinimized(vector<int> &a, int k)
+{
+    int low = *max_element(a.begin(), a.end());
+    int high = accumulate(a.begin(), a.end(), 0);
+    // Apply binary search:
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+        int partitions = countPartitions(a, mid);
+        if (partitions > k)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            high = mid - 1;
+        }
+    }
+    return low;
+}
+
+/*
+    Time Complexity: O(nlogn + klogn)
+Space Complexity: O(n-1)+O(n-1)
+
+*/
+long double minimiseMaxDistance(vector<int> &arr, int k)
+{
+    int n = arr.size(); // size of array.
+    vector<int> howMany(n - 1, 0);
+    priority_queue<pair<long double, int>> pq;
+
+    // insert the first n-1 elements into pq
+    // with respective distance values:
+    for (int i = 0; i < n - 1; i++)
+    {
+        pq.push({arr[i + 1] - arr[i], i});
+    }
+
+    // Pick and place k gas stations:
+    for (int gasStations = 1; gasStations <= k; gasStations++)
+    {
+        // Find the maximum section
+        // and insert the gas station:
+        auto tp = pq.top();
+        pq.pop();
+        int secInd = tp.second;
+
+        // insert the current gas station:
+        howMany[secInd]++;
+
+        long double inidiff = arr[secInd + 1] - arr[secInd];
+        long double newSecLen = inidiff / (long double)(howMany[secInd] + 1);
+        pq.push({newSecLen, secInd});
+    }
+
+    return pq.top().first;
+}
+
+/*
+    Time Complexity: O(log(min(n1,n2))), where n1 and n2 are the sizes of two given arrays.
+*/
+
+double median(vector<int> &a, vector<int> &b)
+{
+    // Write your code here.
+    int n1 = a.size();
+    int n2 = b.size();
+    if (n1 > n2)
+        return median(b, a);
+
+    int low = 0;
+    int high = n1;
+
+    int n = (n1 + n2);
+    int left = (n + 1) / 2;
+
+    while (low <= high)
+    {
+        int mid1 = (low + high) / 2;
+        int mid2 = left - mid1;
+
+        int l1 = INT_MIN;
+        int l2 = INT_MIN;
+
+        int r1 = INT_MAX;
+        int r2 = INT_MAX;
+
+        if (mid1 < n1)
+            r1 = a[mid1];
+        if (mid2 < n2)
+            r2 = b[mid2];
+        if (mid1 - 1 >= 0)
+            l1 = a[mid1 - 1];
+        if (mid2 - 1 >= 0)
+            l2 = b[mid2 - 1];
+
+        if (l1 <= r2 && l2 <= r1)
+        {
+            if (n % 2 == 1)
+                return max(l1, l2);
+            else
+                return ((double)(max(l1, l2) + min(r1, r2))) / 2.0;
+        }
+
+        else if (l1 > r2)
+            high = mid1 - 1;
+        else
+            low = mid1 + 1;
+    }
+    return 0;
+}
+
+/*
+
+    Time Complexity: O(n X logm), where n = given row number, m = given column number.
+
+*/
+int lowerBound(vector<int> &matrix, int m, int x)
+{
+
+    int low = 0;
+    int high = m;
+
+    while (low <= high)
+    {
+        int mid = (low + high) / 2;
+
+        if (matrix[mid] >= x)
+        {
+            high = mid - 1;
+        }
+        else
+        {
+            low = mid + 1;
+        }
+    }
+}
+
+int rowWithMax1s(vector<vector<int>> &matrix, int n, int m)
+{
+    //    Write your code here.
+    int index = -1;
+    int maxCount = 0;
+    for (int i = 0; i < n; i++)
+    {
+        int count = m - lowerBound(matrix[i], m, 1);
+        if (count > maxCount)
+        {
+            maxCount = count;
+            index = i;
+        }
+    }
+    return index;
+}
